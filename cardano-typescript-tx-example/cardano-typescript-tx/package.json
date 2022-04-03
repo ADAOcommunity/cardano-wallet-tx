@@ -1,0 +1,37 @@
+{
+  "name": "cardano-typescript-tx",
+  "version": "0.0.1",
+  "description": "Simplifies creating Cardano transactions from Dapps, including minting native assets and spending from smart contracts",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADAOcommunity/cardano-typescript-tx.git"
+  },
+  "keywords": [
+    "cardano",
+    "utxo",
+    "web3"
+  ],
+  "author": "ADAOcommunity",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ADAOcommunity/cardano-typescript-tx/issues"
+  },
+  "homepage": "https://github.com/ADAOcommunity/cardano-typescript-tx#readme",
+  "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "@emurgo/cip14-js": "^3.0.1",
+    "axios": "^0.26.1",
+    "buffer": "^6.0.3",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.43",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

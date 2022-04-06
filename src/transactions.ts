@@ -1,5 +1,5 @@
-import { Address, AssetName, AuxiliaryData, AuxiliaryDataHash, BigNum, CoinSelectionStrategyCIP2, Costmdls, CostModel, encode_json_str_to_metadatum, GeneralTransactionMetadata, hash_auxiliary_data, hash_script_data, Int, Language, LinearFee, NativeScript, NativeScripts, PlutusData, PlutusList, PlutusScript, PlutusScripts, Redeemer, Redeemers, Transaction, TransactionBuilder, TransactionBuilderConfigBuilder, TransactionInputs, TransactionOutputs, TransactionUnspentOutput, TransactionUnspentOutputs, TransactionWitnessSet, Vkeywitnesses } from "./custom_modules/@emurgo/cardano-serialization-lib-browser";
-import { ProtocolParameters } from "./query-api";
+import { Address, AssetName, AuxiliaryData, AuxiliaryDataHash, BigNum, CoinSelectionStrategyCIP2, Costmdls, CostModel, encode_json_str_to_metadatum, GeneralTransactionMetadata, hash_auxiliary_data, hash_script_data, Int, Language, LinearFee, NativeScript, NativeScripts, PlutusData, PlutusList, PlutusScript, PlutusScripts, Redeemer, Redeemers, Transaction, TransactionBuilder, TransactionBuilderConfigBuilder, TransactionInputs, TransactionOutputs, TransactionUnspentOutput, TransactionUnspentOutputs, TransactionWitnessSet, Vkeywitnesses } from "@emurgo/cardano-serialization-lib-browser";
+import { ProtocolParameters } from "./queryApi";
 import { MintedAsset, BurnAsset } from "./types";
 
 export async function _txBuilderSpendFromPlutusScript({
@@ -122,13 +122,14 @@ export async function _txBuilderSpendFromPlutusScript({
     redeemers.forEach((pR) => pRedeemers.add(pR))
     witnesses.set_redeemers(pRedeemers)
 
-    txbuilder.set_redeemers(
-        Redeemers.from_bytes(pRedeemers.to_bytes())
-    );
-    txbuilder.set_plutus_data(
-        pData
-    );
-    txbuilder.set_plutus_scripts(pScripts);
+    // txbuilder.set_redeemers(
+    //     Redeemers.from_bytes(pRedeemers.to_bytes())
+    // );
+    // txbuilder.set_plutus_data(
+    //     pData
+    // );
+    // txbuilder.set_plutus_scripts(pScripts);
+    
     // const collateral = (
     //     await this.wallet.getCollateral()
     // ).map((utxo) =>
@@ -184,17 +185,17 @@ export async function _txBuilderSpendFromPlutusScript({
     return transaction;
 }
 
-/**
-   * @private
-   */
-async function setCollateral(txBuilder: TransactionBuilder, collateral: TransactionUnspentOutput) {
-    const inputs = TransactionInputs.new();
-    // utxos.forEach((utxo) => {
-    inputs.add(collateral.input());
-    txBuilder.add_address_witness(collateral.output().address());
-    // });
-    txBuilder.set_collateral(inputs);
-}
+// /**
+//    * @private
+//    */
+// async function setCollateral(txBuilder: TransactionBuilder, collateral: TransactionUnspentOutput) {
+//     const inputs = TransactionInputs.new();
+//     // utxos.forEach((utxo) => {
+//     inputs.add(collateral.input());
+//     txBuilder.add_address_witness(collateral.output().address());
+//     // });
+//     txBuilder.set_collateral(inputs);
+// }
 
 export async function _txBuilderMinting({
     PaymentAddress,

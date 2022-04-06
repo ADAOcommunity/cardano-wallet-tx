@@ -1,5 +1,5 @@
-import { PlutusData, PlutusScript, Redeemer, TransactionUnspentOutput } from "../custom_modules/@emurgo/cardano-serialization-lib-browser";
-import { ProtocolParameters } from "../query-api";
+import { PlutusData, PlutusScript, Redeemer, TransactionUnspentOutput } from "@emurgo/cardano-serialization-lib-browser";
+import { ProtocolParameters } from "../queryApi";
 import Delegation from "./Delegation";
 import Recipient from "./Recipient";
 

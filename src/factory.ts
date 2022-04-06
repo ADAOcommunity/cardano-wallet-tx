@@ -1,5 +1,4 @@
-import { CardanoWallet } from './index';
-import { ProtocolParameters } from './query-api';
+import { CardanoWallet } from './cardanoWallet';
 
 export class Factory {
     private _instance?: CardanoWallet;
@@ -10,7 +9,7 @@ export class Factory {
 
     public async load() {
         if (!this.instance)
-            this._instance = new CardanoWallet(await import('./custom_modules/@emurgo/cardano-serialization-lib-browser'));
+            this._instance = new CardanoWallet(await import('@emurgo/cardano-serialization-lib-browser'));
         return this.instance;
     }
 }

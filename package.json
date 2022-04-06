@@ -1,5 +1,5 @@
 {
-  "name": "example-typescript-package",
+  "name": "cardano-wallet-tx",
   "version": "0.2.2",
   "description": "",
   "main": "dist/cjs/index.js",
@@ -40,15 +40,15 @@
     "esm",
     "umd"
   ],
-  "author": "Tom Chen <tomchen.org@gmail.com>",
-  "license": "MIT",
-  "homepage": "https://github.com/tomchen/example-typescript-package",
+  "author": "ADAOCommunity",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/ADAOcommunity/cardano-wallet-tx",
   "repository": {
     "type": "git",
-    "url": "git@github.com:tomchen/example-typescript-package.git"
+    "url": "git@github.com:ADAOcommunity/cardano-wallet-tx.git"
   },
   "bugs": {
-    "url": "https://github.com/tomchen/example-typescript-package/issues"
+    "url": "https://github.com/ADAOcommunity/cardano-wallet-tx/issues"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",

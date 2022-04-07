@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Factory } from './factory'
-import { CardanoWallet } from './cardanoWallet'
+import { Factory, CardanoWallet } from 'cardano-wallet-tx'
 
 const CardanoSerializationLib = new Factory()
 

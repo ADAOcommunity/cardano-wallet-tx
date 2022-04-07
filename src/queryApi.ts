@@ -1,6 +1,5 @@
-import { gql, ApolloClient, InMemoryCache } from '@apollo/client'
+import { gql, ApolloClient, InMemoryCache } from '@apollo/client/core'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { Config } from './config'
 
 const getKoiosHost = ({ isMainnet }: Config) => isMainnet ? 'api.koios.rest' : 'testnet.koios.rest'
@@ -75,117 +74,100 @@ type Asset = {
   name: string
 }
 
-const useAssetUTxOsQuery = (address: string, asset: Asset, config: Config) => {
-  const [result, setResult] = useState<QueryResult<UTxO[]>>({ type: 'loading' })
+const assetUTxOsQuery = async (address: string, asset: Asset, config: Config) => {
+  let result: QueryResult<UTxO[]> | null = null
+  switch (config.queryAPI.type) {
+    case 'graphql': {
+      const apollo = new ApolloClient({
+        uri: config.queryAPI.URI,
+        cache: new InMemoryCache()
+      })
 
-  useEffect(() => {
-    let isMounted = true
+      type QueryData = {
+        utxos: {
+          txHash: string
+          index: number
+          value: string
+          tokens: {
+            asset: {
+              policyId: string
+              assetName: string
+            }
+            quantity: string
+          }[]
+        }[]
+      }
 
-    switch (config.queryAPI.type) {
-      case 'graphql': {
-        const apollo = new ApolloClient({
-          uri: config.queryAPI.URI,
-          cache: new InMemoryCache()
+      type QueryVars = {
+        address: string,
+        policyId: string,
+        asset: string
+      }
+
+      if (address) {
+        const asstq = await apollo.query<QueryData, QueryVars>({
+          query: AssetUTxOQuery,
+          variables: { address: address, policyId: asset.policyId, asset: asset.name }
         })
-
-        type QueryData = {
-          utxos: {
-            txHash: string
-            index: number
+        const utxos = asstq.data?.utxos
+        if (utxos) result = {
+          type: 'ok',
+          data: utxos.map((utxo) => {
+            return {
+              txHash: utxo.txHash,
+              index: utxo.index,
+              lovelace: BigInt(utxo.value),
+              assets: utxo.tokens.map(({ asset, quantity }) => {
+                return {
+                  policyId: asset.policyId,
+                  assetName: asset.assetName,
+                  quantity: BigInt(quantity)
+                }
+              })
+            }
+          })
+        }
+      }
+    }
+    case 'koios': {
+      const koios = createKoios(config)
+      if (address) {
+        const aiq = await koios.get('/api/v0/address_info', { params: { _address: address } })
+        type Info = {
+          balance: string
+          stake_address: string
+          utxo_set: {
+            tx_hash: string
+            tx_index: number
             value: string
-            tokens: {
-              asset: {
-                policyId: string
-                assetName: string
-              }
+            asset_list: {
+              policy_id: string
+              asset_name: string
               quantity: string
             }[]
           }[]
         }
-
-        type QueryVars = {
-          address: string,
-          policyId: string,
-          asset: string
-        }
-
-        address && apollo.query<QueryData, QueryVars>({
-          query: AssetUTxOQuery,
-          variables: { address: address, policyId: asset.policyId, asset: asset.name }
-        }).then(({ data }) => {
-          const utxos = data?.utxos
-
-          isMounted && utxos && setResult({
-            type: 'ok',
-            data: utxos.map((utxo) => {
-              return {
-                txHash: utxo.txHash,
-                index: utxo.index,
-                lovelace: BigInt(utxo.value),
-                assets: utxo.tokens.map(({ asset, quantity }) => {
-                  return {
-                    policyId: asset.policyId,
-                    assetName: asset.assetName,
-                    quantity: BigInt(quantity)
-                  }
-                })
-              }
-            })
-          })
-        }).catch(() => {
-          isMounted && setResult({ type: 'error' })
-        })
-      }
-
-      case 'koios': {
-        const koios = createKoios(config)
-
-        address && koios.get('/api/v0/address_info', { params: { _address: address } })
-          .then(({ data }) => {
-            type Info = {
-              balance: string
-              stake_address: string
-              utxo_set: {
-                tx_hash: string
-                tx_index: number
-                value: string
-                asset_list: {
-                  policy_id: string
-                  asset_name: string
-                  quantity: string
-                }[]
-              }[]
-            }
-            const info: Info = data?.[0]
-
-            isMounted && info && setResult({
-              type: 'ok',
-              data: info.utxo_set.map((utxo) => {
+        const info: Info = aiq.data?.[0]
+        if (info) result = {
+          type: 'ok',
+          data: info.utxo_set.map((utxo) => {
+            return {
+              txHash: utxo.tx_hash,
+              index: utxo.tx_index,
+              lovelace: BigInt(utxo.value),
+              assets: utxo.asset_list.map((asset) => {
                 return {
-                  txHash: utxo.tx_hash,
-                  index: utxo.tx_index,
-                  lovelace: BigInt(utxo.value),
-                  assets: utxo.asset_list.map((asset) => {
-                    return {
-                      policyId: asset.policy_id,
-                      assetName: asset.asset_name,
-                      quantity: BigInt(asset.quantity)
-                    }
-                  })
+                  policyId: asset.policy_id,
+                  assetName: asset.asset_name,
+                  quantity: BigInt(asset.quantity)
                 }
-              })?.filter(info => info.assets?.find(asst => asst.assetName == asset.name && asst.policyId == asset.policyId))
-            })
-          }).catch(() => {
-            isMounted && setResult({ type: 'error' })
-          })
+              })
+            }
+          })?.filter(info => info.assets?.find(asst => asst.assetName == asset.name && asst.policyId == asset.policyId))
+        }
       }
     }
-
-    return () => {
-      isMounted = false
-    }
-  }, [address, config])
-
+  }
   return result
 }
 
@@ -206,115 +188,102 @@ query UTxOsByAddress($address: String!) {
   }
 }`
 
-const useAddressUTxOsQuery = (address: string, config: Config) => {
-  const [result, setResult] = useState<QueryResult<UTxO[]>>({ type: 'loading' })
+const addressUTxOsQuery = async (address: string, config: Config) => {
+  let result: QueryResult<UTxO[]> | null = null
 
-  useEffect(() => {
-    let isMounted = true
+  switch (config.queryAPI.type) {
+    case 'graphql': {
+      const apollo = new ApolloClient({
+        uri: config.queryAPI.URI,
+        cache: new InMemoryCache()
+      })
 
-    switch (config.queryAPI.type) {
-      case 'graphql': {
-        const apollo = new ApolloClient({
-          uri: config.queryAPI.URI,
-          cache: new InMemoryCache()
+      type QueryData = {
+        utxos: {
+          txHash: string
+          index: number
+          value: string
+          tokens: {
+            asset: {
+              policyId: string
+              assetName: string
+            }
+            quantity: string
+          }[]
+        }[]
+      }
+
+      type QueryVars = {
+        address: string
+      }
+
+      if (address) {
+        const qdata = await apollo.query<QueryData, QueryVars>({
+          query: UTxOsQuery,
+          variables: { address: address }
         })
+        const utxos = qdata.data?.utxos
 
-        type QueryData = {
-          utxos: {
-            txHash: string
-            index: number
+        if (utxos) result = {
+          type: 'ok',
+          data: utxos.map((utxo) => {
+            return {
+              txHash: utxo.txHash,
+              index: utxo.index,
+              lovelace: BigInt(utxo.value),
+              assets: utxo.tokens.map(({ asset, quantity }) => {
+                return {
+                  policyId: asset.policyId,
+                  assetName: asset.assetName,
+                  quantity: BigInt(quantity)
+                }
+              })
+            }
+          })
+        }
+      }
+    }
+
+    case 'koios': {
+      const koios = createKoios(config)
+      if (address) {
+        const adata = await koios.get('/api/v0/address_info', { params: { _address: address } })
+        type Info = {
+          balance: string
+          stake_address: string
+          utxo_set: {
+            tx_hash: string
+            tx_index: number
             value: string
-            tokens: {
-              asset: {
-                policyId: string
-                assetName: string
-              }
+            asset_list: {
+              policy_id: string
+              asset_name: string
               quantity: string
             }[]
           }[]
         }
+        const info: Info = adata.data?.[0]
 
-        type QueryVars = {
-          address: string
-        }
-
-        address && apollo.query<QueryData, QueryVars>({
-          query: UTxOsQuery,
-          variables: { address: address }
-        }).then(({ data }) => {
-          const utxos = data?.utxos
-
-          isMounted && utxos && setResult({
-            type: 'ok',
-            data: utxos.map((utxo) => {
-              return {
-                txHash: utxo.txHash,
-                index: utxo.index,
-                lovelace: BigInt(utxo.value),
-                assets: utxo.tokens.map(({ asset, quantity }) => {
-                  return {
-                    policyId: asset.policyId,
-                    assetName: asset.assetName,
-                    quantity: BigInt(quantity)
-                  }
-                })
-              }
-            })
-          })
-        }).catch(() => {
-          isMounted && setResult({ type: 'error' })
-        })
-      }
-
-      case 'koios': {
-        const koios = createKoios(config)
-
-        address && koios.get('/api/v0/address_info', { params: { _address: address } })
-          .then(({ data }) => {
-            type Info = {
-              balance: string
-              stake_address: string
-              utxo_set: {
-                tx_hash: string
-                tx_index: number
-                value: string
-                asset_list: {
-                  policy_id: string
-                  asset_name: string
-                  quantity: string
-                }[]
-              }[]
-            }
-            const info: Info = data?.[0]
-
-            isMounted && info && setResult({
-              type: 'ok',
-              data: info.utxo_set.map((utxo) => {
+        if (info) result = {
+          type: 'ok',
+          data: info.utxo_set.map((utxo) => {
+            return {
+              txHash: utxo.tx_hash,
+              index: utxo.tx_index,
+              lovelace: BigInt(utxo.value),
+              assets: utxo.asset_list.map((asset) => {
                 return {
-                  txHash: utxo.tx_hash,
-                  index: utxo.tx_index,
-                  lovelace: BigInt(utxo.value),
-                  assets: utxo.asset_list.map((asset) => {
-                    return {
-                      policyId: asset.policy_id,
-                      assetName: asset.asset_name,
-                      quantity: BigInt(asset.quantity)
-                    }
-                  })
+                  policyId: asset.policy_id,
+                  assetName: asset.asset_name,
+                  quantity: BigInt(asset.quantity)
                 }
               })
-            })
-          }).catch(() => {
-            isMounted && setResult({ type: 'error' })
+            }
           })
+        }
       }
     }
-
-    return () => {
-      isMounted = false
-    }
-  }, [address, config])
-
+  }
   return result
 }
 
@@ -349,113 +318,94 @@ query getProtocolParameters {
   }
 }`
 
-const useProtocolParametersQuery = (config: Config) => {
-  const [result, setResult] = useState<QueryResult<ProtocolParameters>>({ type: 'loading' })
+const protocolParametersQuery = async (config: Config) => {
+  let result: QueryResult<ProtocolParameters> | null = null
+  switch (config.queryAPI.type) {
+    case 'graphql': {
+      const apollo = new ApolloClient({
+        uri: config.queryAPI.URI,
+        cache: new InMemoryCache()
+      })
 
-  useEffect(() => {
-    let isMounted = true
-
-    switch (config.queryAPI.type) {
-      case 'graphql': {
-        const apollo = new ApolloClient({
-          uri: config.queryAPI.URI,
-          cache: new InMemoryCache()
-        })
-
-        type QueryData = {
-          genesis: {
-            tip: {
-              slotNo: number
-            }
-            shelley: {
-              protocolParams: {
-                minFeeA: number
-                minFeeB: number
-                poolDeposit: number
-                keyDeposit: number
-                coinsPerUtxoWord: number
-                maxValSize: string
-                maxTxSize: number
-              }
+      type QueryData = {
+        genesis: {
+          tip: {
+            slotNo: number
+          }
+          shelley: {
+            protocolParams: {
+              minFeeA: number
+              minFeeB: number
+              poolDeposit: number
+              keyDeposit: number
+              coinsPerUtxoWord: number
+              maxValSize: string
+              maxTxSize: number
             }
           }
         }
-
-        apollo.query<QueryData>({ query: ProtocolParametersQuery }).then(({ data }) => {
-          const params = data?.genesis.shelley.protocolParams
-
-          params && isMounted && setResult({
-            type: 'ok',
-            data: {
-              minFeeA: params.minFeeA,
-              minFeeB: params.minFeeB,
-              poolDeposit: params.poolDeposit,
-              keyDeposit: params.keyDeposit,
-              coinsPerUtxoWord: params.coinsPerUtxoWord,
-              maxValSize: parseFloat(params.maxValSize),
-              maxTxSize: params.maxTxSize,
-              slot: data.genesis.tip.slotNo
-
-            }
-          })
-        }).catch(() => {
-          isMounted && setResult({ type: 'error' })
-        })
       }
 
-      case 'koios': {
-        const koios = createKoios(config)
-        koios.get('/api/v0/tip').then(({ data }) => {
-          type Tip = {
-            hash: string
-            epoch: number
-            abs_slot: number
-            epoch_slot: number
-            block_no: number
-            block_time: string
+      const qdata = await apollo.query<QueryData>({ query: ProtocolParametersQuery })
+      const params = qdata.data?.genesis.shelley.protocolParams
+      if (params) result = {
+        type: 'ok',
+        data: {
+          minFeeA: params.minFeeA,
+          minFeeB: params.minFeeB,
+          poolDeposit: params.poolDeposit,
+          keyDeposit: params.keyDeposit,
+          coinsPerUtxoWord: params.coinsPerUtxoWord,
+          maxValSize: parseFloat(params.maxValSize),
+          maxTxSize: params.maxTxSize,
+          slot: qdata.data.genesis.tip.slotNo
+        }
+      }
+    }
+
+    case 'koios': {
+      const koios = createKoios(config)
+      const kdata = await koios.get('/api/v0/tip')
+      type Tip = {
+        hash: string
+        epoch: number
+        abs_slot: number
+        epoch_slot: number
+        block_no: number
+        block_time: string
+      }
+      const tip: Tip = kdata.data?.[0]
+      if (tip) {
+        const epData = await koios.get('/api/v0/epoch_params', { params: { _epoch_no: tip.epoch } })
+        type KoiosProtocolParameters = {
+          min_fee_a: number
+          min_fee_b: number
+          key_deposit: number
+          pool_deposit: number
+          coins_per_utxo_word: number
+          max_val_size: number
+          max_tx_size: number
+        }
+        const params: KoiosProtocolParameters = epData.data?.[0]
+        if (params) result = {
+          type: 'ok',
+          data: {
+            minFeeA: params.min_fee_a,
+            minFeeB: params.min_fee_b,
+            poolDeposit: params.pool_deposit,
+            keyDeposit: params.key_deposit,
+            coinsPerUtxoWord: params.coins_per_utxo_word,
+            maxValSize: params.max_val_size,
+            maxTxSize: params.max_tx_size,
+            slot: tip.abs_slot
           }
-          const tip: Tip = data?.[0]
-          tip && koios.get('/api/v0/epoch_params', { params: { _epoch_no: tip.epoch } }).then(({ data }) => {
-            type KoiosProtocolParameters = {
-              min_fee_a: number
-              min_fee_b: number
-              key_deposit: number
-              pool_deposit: number
-              coins_per_utxo_word: number
-              max_val_size: number
-              max_tx_size: number
-            }
-            const params: KoiosProtocolParameters = data?.[0]
-            params && isMounted && setResult({
-              type: 'ok',
-              data: {
-                minFeeA: params.min_fee_a,
-                minFeeB: params.min_fee_b,
-                poolDeposit: params.pool_deposit,
-                keyDeposit: params.key_deposit,
-                coinsPerUtxoWord: params.coins_per_utxo_word,
-                maxValSize: params.max_val_size,
-                maxTxSize: params.max_tx_size,
-                slot: tip.abs_slot
-              }
-            })
-          }).catch(() => {
-            isMounted && setResult({ type: 'error' })
-          })
-        }).catch(() => {
-          isMounted && setResult({ type: 'error' })
-        })
+        }
       }
     }
-
-    return () => {
-      isMounted = false
-    }
-  }, [config])
-
+  }
   return result
 }
 
 export type { Value, ProtocolParameters, UTxO }
 
-export { getBalance, useAddressUTxOsQuery, useProtocolParametersQuery, useAssetUTxOsQuery }
+export { getBalance, addressUTxOsQuery, protocolParametersQuery, assetUTxOsQuery }

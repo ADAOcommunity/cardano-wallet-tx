@@ -6,6 +6,7 @@ import { defaultConfig } from './config'
 import { walletConfig } from './walletConfig'
 import { Asset, MintedAsset, BurnAsset, AssetHolding, Policy, Recipient, UTXO, ValueHolding, WalletApi, Delegation } from './types/index'
 import { Factory } from './factory'
+import TransactionParams from "./types/TransactionParams";
 
 export type {
     Value,
@@ -21,7 +22,8 @@ export type {
     UTXO,
     ValueHolding,
     WalletApi,
-    Delegation
+    Delegation,
+    TransactionParams
 }
 export {
     CardanoWallet,

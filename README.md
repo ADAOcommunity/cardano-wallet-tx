@@ -1,4 +1,4 @@
-# cardano-wallet-tx package
+#  🚧 cardano-wallet-tx package
 
 Allows creating transactions based on configuration, including minting and plutus scripts
 

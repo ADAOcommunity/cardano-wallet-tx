@@ -296,14 +296,16 @@ type ProtocolParameters = {
   maxValSize: number
   maxTxSize: number
   slot: number
+  priceMem: number
+  priceStep: number
 }
 
 const ProtocolParametersQuery = gql`
 query getProtocolParameters {
-  tip {
-    slotNo
-  }
   cardano {
+    tip {
+      slotNo
+    }
     currentEpoch {
       protocolParams {
         minFeeA
@@ -313,6 +315,8 @@ query getProtocolParameters {
         coinsPerUtxoWord
         maxValSize
         maxTxSize
+        priceMem
+        priceStep
       }
     }
   }
@@ -328,11 +332,11 @@ const protocolParametersQuery = async (config: Config) => {
       })
 
       type QueryData = {
-        genesis: {
+        cardano: {
           tip: {
             slotNo: number
           }
-          shelley: {
+          currentEpoch: {
             protocolParams: {
               minFeeA: number
               minFeeB: number
@@ -341,13 +345,15 @@ const protocolParametersQuery = async (config: Config) => {
               coinsPerUtxoWord: number
               maxValSize: string
               maxTxSize: number
+              priceMem: number
+              priceStep: number
             }
           }
         }
       }
 
       const qdata = await apollo.query<QueryData>({ query: ProtocolParametersQuery })
-      const params = qdata.data?.genesis.shelley.protocolParams
+      const params = qdata.data?.cardano.currentEpoch.protocolParams
       if (params) result = {
         type: 'ok',
         data: {
@@ -358,7 +364,9 @@ const protocolParametersQuery = async (config: Config) => {
           coinsPerUtxoWord: params.coinsPerUtxoWord,
           maxValSize: parseFloat(params.maxValSize),
           maxTxSize: params.maxTxSize,
-          slot: qdata.data.genesis.tip.slotNo
+          slot: qdata.data.cardano.tip.slotNo,
+          priceMem: params.priceMem,
+          priceStep: params.priceStep
         }
       }
     }
@@ -385,6 +393,8 @@ const protocolParametersQuery = async (config: Config) => {
           coins_per_utxo_word: number
           max_val_size: number
           max_tx_size: number
+          price_mem: number
+          price_step: number
         }
         const params: KoiosProtocolParameters = epData.data?.[0]
         if (params) result = {
@@ -397,7 +407,9 @@ const protocolParametersQuery = async (config: Config) => {
             coinsPerUtxoWord: params.coins_per_utxo_word,
             maxValSize: params.max_val_size,
             maxTxSize: params.max_tx_size,
-            slot: tip.abs_slot
+            slot: tip.abs_slot,
+            priceMem: params.price_mem,
+            priceStep: params.price_step
           }
         }
       }

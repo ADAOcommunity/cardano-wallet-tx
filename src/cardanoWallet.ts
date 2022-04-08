@@ -751,6 +751,8 @@ export class CardanoWallet {
         totalWitnesses.set_native_scripts(totalScripts);
         totalWitnesses.set_plutus_scripts(totalPlutusScripts)
         totalWitnesses.set_redeemers(totalRedeemers)
+        totalWitnesses.set_plutus_data(totalPlutusData)
+        
         let aux;
         if (metadata) {
             aux = this.lib.AuxiliaryData.new();

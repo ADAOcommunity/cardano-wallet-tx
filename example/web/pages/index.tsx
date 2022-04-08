@@ -2,11 +2,11 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { CardanoWallet,Factory, ProtocolParameters, protocolParametersQuery, TransactionParams } from 'cardano-wallet-tx'
+import { CardanoWallet, Factory, ProtocolParameters, protocolParametersQuery, addressUTxOsQuery, TransactionParams } from 'cardano-wallet-tx'
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../utils/ConfigContext'
-import { Transaction, TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-browser'
-
+import { BigInt, BigNum, ExUnits, PlutusData, PlutusMap, PlutusScript, Redeemer, RedeemerTag, Transaction, TransactionUnspentOutput, TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-browser'
+import validator from '../../plutus/alwaysSucceedsValidator'
 const Home: NextPage = () => {
   const [cardanoWallet, setCardano] = useState<CardanoWallet>()
   const [config, _] = useContext(ConfigContext)
@@ -15,55 +15,36 @@ const Home: NextPage = () => {
   const load = async () => {
     const pp = await protocolParametersQuery(config)
     console.log('loaded: ' + JSON.stringify(pp))
-    if(pp && pp.data) setPParams(pp.data)
+    if (pp && pp.data) setPParams(pp.data)
   }
 
   const pay = async () => {
-    if(!cardanoWallet || !pParams) return
-    if(!await cardanoWallet.enable('nami')) return
+    if (!cardanoWallet || !pParams) return
+    if (!await cardanoWallet.enable('nami')) return
     const walletAddr = await cardanoWallet.getAddressHexString()
     if (!walletAddr || !cardanoWallet.wallet) return
     let utxos = await cardanoWallet.wallet.getUtxos();
 
-    const txParams: TransactionParams = {
-        ProtocolParameters: pParams,
-        PaymentAddress: walletAddr,
-        recipients: [
-            {
-                address: 'addr_test1qz8p9zjyk2us3jcq4a5cn0xf8c2ydrz2cxc5280j977yvc0gtg8vh0c9sp7ce579jhpmynlk758lxhvf52sfs9mrprwsjddese',
-                amount: '2.5',
-            }
-        ],
-        metadata: null,
-        metadataHash: null,
-        addMetadata: true,
-        utxosRaw: utxos,
-        ttl: null,
-        multiSig: false,
-        delegation: null,
-        redeemers: [],
-        plutusValidators: [],
-        plutusPolicies: [],
-        burn: false
-    }
+    const txParams: TransactionParams = payToScript(pParams, walletAddr, utxos)
+    // const txParams: TransactionParams = spendFromScript(pParams, walletAddr, utxos)
 
     let tx: Transaction | null = await cardanoWallet.transaction(txParams)
-    if(!tx) return
+    if (!tx) return
     const transactionWitnessSet = TransactionWitnessSet.new();
     const txVkeyWitnessesStr = await cardanoWallet.wallet.signTx(Buffer.from(tx.to_bytes()).toString("hex"), false);
     const txVkeyWitnessesSer = TransactionWitnessSet.from_bytes(Buffer.from(txVkeyWitnessesStr, "hex"));
-    if(!txVkeyWitnessesSer) return
+    if (!txVkeyWitnessesSer) return
     const witnessFromSignature = txVkeyWitnessesSer.vkeys()
-    if(!witnessFromSignature) return
+    if (!witnessFromSignature) return
     transactionWitnessSet.set_vkeys(witnessFromSignature);
     const txBody = tx.body()
     let aux = tx.auxiliary_data();
-    if(!aux) return
+    if (!aux) return
     txBody.set_auxiliary_data_hash(cardanoWallet.lib.hash_auxiliary_data(aux))
     const signedTx = Transaction.new(
-        txBody,
-        transactionWitnessSet,
-        aux
+      txBody,
+      transactionWitnessSet,
+      aux
     );
 
     const submittedTxHash = await cardanoWallet.wallet.submitTx(Buffer.from(signedTx.to_bytes()).toString("hex"));
@@ -74,13 +55,13 @@ const Home: NextPage = () => {
     let isMounted = true
     load()
     CardanoSerializationLib.load().then((instance: CardanoWallet | undefined) => {
-        isMounted && setCardano(instance)
-        console.log('cardanoWallet')
-        console.log(instance)
+      isMounted && setCardano(instance)
+      console.log('cardanoWallet')
+      console.log(instance)
     })
 
     return () => {
-        isMounted = false
+      isMounted = false
     }
   }, [])
 
@@ -97,7 +78,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        { cardanoWallet ? <button onClick={pay}>Click</button> : <button disabled>Click</button> }
+        {cardanoWallet ? <button onClick={pay}>Click</button> : <button disabled>Click</button>}
       </main>
 
       <footer className={styles.footer}>
@@ -117,3 +98,63 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+function payToScript(pParams: ProtocolParameters, walletAddr: string, utxos: TransactionUnspentOutput[]): TransactionParams {
+  return {
+    ProtocolParameters: pParams,
+    PaymentAddress: walletAddr,
+    recipients: [
+      {
+        address: validator.testnetAddress,
+        amount: '2.2',
+        datum: PlutusData.new_integer(BigInt.from_str('1'))
+      }
+    ],
+    metadata: null,
+    metadataHash: null,
+    addMetadata: true,
+    utxosRaw: utxos,
+    ttl: null,
+    multiSig: false,
+    delegation: null,
+    redeemers: [],
+    plutusValidators: [],
+    plutusPolicies: [],
+    burn: false
+  }
+}
+
+function spendFromScript(pParams: ProtocolParameters, walletAddr: string, utxos: TransactionUnspentOutput[]): TransactionParams {
+  return {
+    ProtocolParameters: pParams,
+    PaymentAddress: walletAddr,
+    recipients: [
+      {
+        address: walletAddr,
+        amount: '2.2',
+      }
+    ],
+    metadata: null,
+    metadataHash: null,
+    addMetadata: true,
+    utxosRaw: utxos,
+    ttl: null,
+    multiSig: false,
+    delegation: null,
+    redeemers: [
+      Redeemer.new(
+        RedeemerTag.new_spend(),
+        BigNum.zero(),
+        PlutusData.new_map(PlutusMap.new()),
+        ExUnits.new(
+          BigNum.from_str(validator.exBudget.exBudgetMemory.toString()),
+          BigNum.from_str(validator.exBudget.exBudgetCPU.toString())
+        )
+      )
+    ],
+    plutusValidators: [PlutusScript.new(Buffer.from(validator.validator, 'hex'))],
+    plutusPolicies: [],
+    burn: false
+  }
+}
+

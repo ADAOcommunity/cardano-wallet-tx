@@ -1,37 +1,53 @@
-import CardanoWallet from "./cardanoWallet";
+import CardanoWallet from './cardanoWallet'
 import { Value, ProtocolParameters, UTxO } from './queryApi'
-import { getBalance, addressUTxOsQuery, protocolParametersQuery, assetUTxOsQuery } from './queryApi'
+import {
+  getBalance,
+  addressUTxOsQuery,
+  protocolParametersQuery,
+  assetUTxOsQuery,
+} from './queryApi'
 import { Config } from './config'
 import { defaultConfig } from './config'
 import { walletConfig } from './walletConfig'
-import { Asset, MintedAsset, BurnAsset, AssetHolding, Policy, Recipient, UTXO, ValueHolding, WalletApi, Delegation } from './types/index'
+import {
+  Asset,
+  MintedAsset,
+  BurnAsset,
+  AssetHolding,
+  Policy,
+  Recipient,
+  UTXO,
+  ValueHolding,
+  WalletApi,
+  Delegation,
+} from './types/index'
 import { Factory } from './factory'
-import TransactionParams from "./types/TransactionParams";
+import TransactionParams from './types/TransactionParams'
 
 export type {
-    Value,
-    ProtocolParameters,
-    UTxO, 
-    Config,
-    Asset,
-    MintedAsset,
-    BurnAsset,
-    AssetHolding,
-    Policy,
-    Recipient,
-    UTXO,
-    ValueHolding,
-    WalletApi,
-    Delegation,
-    TransactionParams
+  Value,
+  ProtocolParameters,
+  UTxO,
+  Config,
+  Asset,
+  MintedAsset,
+  BurnAsset,
+  AssetHolding,
+  Policy,
+  Recipient,
+  UTXO,
+  ValueHolding,
+  WalletApi,
+  Delegation,
+  TransactionParams,
 }
 export {
-    CardanoWallet,
-    getBalance,
-    addressUTxOsQuery,
-    protocolParametersQuery,
-    assetUTxOsQuery,
-    defaultConfig,
-    walletConfig,
-    Factory
+  CardanoWallet,
+  getBalance,
+  addressUTxOsQuery,
+  protocolParametersQuery,
+  assetUTxOsQuery,
+  defaultConfig,
+  walletConfig,
+  Factory,
 }

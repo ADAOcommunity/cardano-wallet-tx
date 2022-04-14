@@ -9,4 +9,15 @@ import ValueHolding from './ValueHolding'
 import WalletApi from './WalletApi'
 import Delegation from './Delegation'
 
-export type { Asset, MintedAsset, BurnAsset, AssetHolding, Policy, Recipient, UTXO, ValueHolding, WalletApi, Delegation }
+export type {
+  Asset,
+  MintedAsset,
+  BurnAsset,
+  AssetHolding,
+  Policy,
+  Recipient,
+  UTXO,
+  ValueHolding,
+  WalletApi,
+  Delegation,
+}

@@ -1,6 +1,6 @@
-import { AssetHolding } from './index';
+import { AssetHolding } from './index'
 
 export default interface ValueHolding {
-    lovelace: string;
-    assets: AssetHolding[];
-};
+  lovelace: string
+  assets: AssetHolding[]
+}

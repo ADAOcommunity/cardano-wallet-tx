@@ -31,6 +31,7 @@ export class Factory {
    * ```
    * @readonly
    */
+
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public get instance() {
     return this._instance
@@ -51,6 +52,7 @@ export class Factory {
    *
    * @public
    */
+
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async load() {
     if (!this.instance)

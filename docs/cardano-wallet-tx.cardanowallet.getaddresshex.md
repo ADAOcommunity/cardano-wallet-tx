@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getAddressHex(): Promise<Buffer_2 | null>;
+getAddressHex(): Promise<Buffer | null>;
 ```
 <b>Returns:</b>
 
-Promise&lt;Buffer\_2 \| null&gt;
+Promise&lt;Buffer \| null&gt;
 

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface Policy 
+export default interface Policy 
 ```
 
 ## Properties

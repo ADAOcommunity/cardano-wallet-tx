@@ -14,7 +14,7 @@ transaction({ ProtocolParameters, PaymentAddress, recipients, metadata, metadata
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { ProtocolParameters, PaymentAddress, recipients, metadata, metadataHash, utxosRaw, ttl, multiSig, delegation, redeemers, plutusValidators, plutusPolicies, datums, burn, } | [TransactionParams](./cardano-wallet-tx.transactionparams.md) |  |
+|  { ProtocolParameters, PaymentAddress, recipients, metadata, metadataHash, utxosRaw, ttl, multiSig, delegation, redeemers, plutusValidators, plutusPolicies, datums, burn, } | TransactionParams |  |
 
 <b>Returns:</b>
 

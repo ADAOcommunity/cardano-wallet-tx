@@ -14,7 +14,7 @@ registerPolicy(policy: Policy): Promise<void>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  policy | [Policy](./cardano-wallet-tx.policy.md) |  |
+|  policy | Policy |  |
 
 <b>Returns:</b>
 

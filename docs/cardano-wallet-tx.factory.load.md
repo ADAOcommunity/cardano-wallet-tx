@@ -4,6 +4,8 @@
 
 ## Factory.load() method
 
+Cardano Serialization Lib Factory Loader.
+
 <b>Signature:</b>
 
 ```typescript
@@ -12,4 +14,12 @@ load(): Promise<CardanoWallet | undefined>;
 <b>Returns:</b>
 
 Promise&lt;[CardanoWallet](./cardano-wallet-tx.cardanowallet.md) \| undefined&gt;
+
+## Remarks
+
+This method attaches the cardano-serialization-lib-browser.
+
+## Example
+
+\`\`\`<!-- -->ts \`\`\`
 

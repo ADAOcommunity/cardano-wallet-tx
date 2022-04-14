@@ -7,13 +7,13 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface ValueHolding 
+export default interface ValueHolding 
 ```
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [assets](./cardano-wallet-tx.valueholding.assets.md) | [AssetHolding](./cardano-wallet-tx.assetholding.md)<!-- -->\[\] |  |
+|  [assets](./cardano-wallet-tx.valueholding.assets.md) | AssetHolding\[\] |  |
 |  [lovelace](./cardano-wallet-tx.valueholding.lovelace.md) | string |  |
 

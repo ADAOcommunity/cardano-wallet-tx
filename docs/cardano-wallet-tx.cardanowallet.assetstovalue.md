@@ -11,7 +11,7 @@ assetsToValue(assets: {
         policyId: string;
         assetName: string;
         quantity: bigint;
-    }[], lovelace: bigint): Promise<Value_2>;
+    }[], lovelace: bigint): Promise<Value>;
 ```
 
 ## Parameters
@@ -23,5 +23,5 @@ assetsToValue(assets: {
 
 <b>Returns:</b>
 
-Promise&lt;Value\_2&gt;
+Promise&lt;Value&gt;
 

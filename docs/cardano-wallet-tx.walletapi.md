@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface WalletApi 
+export default interface WalletApi 
 ```
 
 ## Properties
@@ -15,7 +15,7 @@ export declare interface WalletApi
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [experimental](./cardano-wallet-tx.walletapi.experimental.md) | Experimental |  |
-|  [getBalance](./cardano-wallet-tx.walletapi.getbalance.md) | () =&gt; Promise&lt;Value\_2&gt; |  |
+|  [getBalance](./cardano-wallet-tx.walletapi.getbalance.md) | () =&gt; Promise&lt;Value&gt; |  |
 |  [getChangeAddress](./cardano-wallet-tx.walletapi.getchangeaddress.md) | () =&gt; Promise&lt;BaseAddress&gt; |  |
 |  [getCollateral?](./cardano-wallet-tx.walletapi.getcollateral.md) | () =&gt; Promise&lt;TransactionUnspentOutput&gt; | <i>(Optional)</i> |
 |  [getNetworkId](./cardano-wallet-tx.walletapi.getnetworkid.md) | () =&gt; Promise&lt;number&gt; |  |

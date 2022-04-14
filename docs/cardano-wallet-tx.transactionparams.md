@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface TransactionParams 
+export default interface TransactionParams 
 ```
 
 ## Properties
@@ -17,15 +17,15 @@ export declare interface TransactionParams
 |  [addMetadata](./cardano-wallet-tx.transactionparams.addmetadata.md) | boolean |  |
 |  [burn](./cardano-wallet-tx.transactionparams.burn.md) | boolean |  |
 |  [datums?](./cardano-wallet-tx.transactionparams.datums.md) | PlutusData\[\] | <i>(Optional)</i> |
-|  [delegation](./cardano-wallet-tx.transactionparams.delegation.md) | [Delegation](./cardano-wallet-tx.delegation.md) \| null |  |
+|  [delegation](./cardano-wallet-tx.transactionparams.delegation.md) | Delegation \| null |  |
 |  [metadata](./cardano-wallet-tx.transactionparams.metadata.md) | object \| null |  |
 |  [metadataHash](./cardano-wallet-tx.transactionparams.metadatahash.md) | string \| null |  |
 |  [multiSig](./cardano-wallet-tx.transactionparams.multisig.md) | boolean |  |
 |  [PaymentAddress](./cardano-wallet-tx.transactionparams.paymentaddress.md) | string |  |
 |  [plutusPolicies](./cardano-wallet-tx.transactionparams.plutuspolicies.md) | PlutusScript\[\] |  |
 |  [plutusValidators](./cardano-wallet-tx.transactionparams.plutusvalidators.md) | PlutusScript\[\] |  |
-|  [ProtocolParameters](./cardano-wallet-tx.transactionparams.protocolparameters.md) | [ProtocolParameters](./cardano-wallet-tx.protocolparameters.md) |  |
-|  [recipients](./cardano-wallet-tx.transactionparams.recipients.md) | [Recipient](./cardano-wallet-tx.recipient.md)<!-- -->\[\] |  |
+|  [ProtocolParameters](./cardano-wallet-tx.transactionparams.protocolparameters.md) | ProtocolParameters |  |
+|  [recipients](./cardano-wallet-tx.transactionparams.recipients.md) | Recipient\[\] |  |
 |  [redeemers](./cardano-wallet-tx.transactionparams.redeemers.md) | Redeemer\[\] |  |
 |  [ttl](./cardano-wallet-tx.transactionparams.ttl.md) | number \| null |  |
 |  [utxosRaw](./cardano-wallet-tx.transactionparams.utxosraw.md) | TransactionUnspentOutput\[\] \| undefined |  |

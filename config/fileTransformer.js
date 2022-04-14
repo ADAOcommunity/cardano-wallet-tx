@@ -1,9 +1,8 @@
 // source: https://jestjs.io/docs/code-transformation#examples
 
-const path = require('path');
+import { basename } from 'path'
 
-module.exports = {
-  process(src, filename, config, options) {
-    return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
-  },
-};
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const process = (filename) => {
+  return 'module.exports = ' + JSON.stringify(basename(filename)) + ';'
+}

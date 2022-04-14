@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-assetUTxOsQuery: (address: string, asset: Asset_2, config: Config) => Promise<{
+assetUTxOsQuery: (address: string, asset: Asset, config: Config) => Promise<{
     type: 'ok';
     data: UTxO[];
 } | null>

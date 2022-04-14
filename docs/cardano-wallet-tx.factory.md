@@ -4,21 +4,31 @@
 
 ## Factory class
 
+Factory for CardanoWallet Instance
+
 <b>Signature:</b>
 
 ```typescript
 export declare class Factory 
 ```
 
+## Remarks
+
+Imports the @<!-- -->emurgo/cardano-serialization-lib-browser
+
+```ts
+new CardanoWallet(await import('@emurgo/cardano-serialization-lib-browser'))
+```
+
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [instance](./cardano-wallet-tx.factory.instance.md) |  | [CardanoWallet](./cardano-wallet-tx.cardanowallet.md) \| undefined |  |
+|  [instance](./cardano-wallet-tx.factory.instance.md) |  | [CardanoWallet](./cardano-wallet-tx.cardanowallet.md) \| undefined | Get Factory Instance. |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [load()](./cardano-wallet-tx.factory.load.md) |  |  |
+|  [load()](./cardano-wallet-tx.factory.load.md) |  | Cardano Serialization Lib Factory Loader. |
 

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type UTxO = {
+declare type UTxO = {
     txHash: string;
     index: number;
     lovelace: bigint;

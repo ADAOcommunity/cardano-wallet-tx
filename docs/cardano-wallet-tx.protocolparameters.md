@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type ProtocolParameters = {
+declare type ProtocolParameters = {
     minFeeA: number;
     minFeeB: number;
     poolDeposit: number;

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface BurnAsset 
+export default interface BurnAsset 
 ```
 
 ## Properties

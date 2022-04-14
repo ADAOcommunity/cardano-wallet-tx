@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-setWallet(walletApi: WalletApi): void;
+setWallet(walletApi: WalletApi): WalletApi;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  walletApi | [WalletApi](./cardano-wallet-tx.walletapi.md) |  |
+|  walletApi | WalletApi |  |
 
 <b>Returns:</b>
 
-void
+WalletApi
 

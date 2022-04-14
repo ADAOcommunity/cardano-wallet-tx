@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [cardano-wallet-tx](./cardano-wallet-tx.md) |  |
+|  [cardano-wallet-tx](./cardano-wallet-tx.md) | 🚧 Allows creating transactions based on configuration, including minting and plutus scripts. For details, see [github](https://github.com/ADAOcommunity/cardano-wallet-tx) |
 

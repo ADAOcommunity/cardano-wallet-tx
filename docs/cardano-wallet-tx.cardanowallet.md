@@ -20,9 +20,9 @@ export declare class CardanoWallet
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [\_walletApi](./cardano-wallet-tx.cardanowallet._walletapi.md) |  | [WalletApi](./cardano-wallet-tx.walletapi.md) \| undefined |  |
-|  [lib](./cardano-wallet-tx.cardanowallet.lib.md) |  | emurgoCardanoSerializationLibBrowser |  |
-|  [wallet](./cardano-wallet-tx.cardanowallet.wallet.md) |  | [WalletApi](./cardano-wallet-tx.walletapi.md) \| undefined |  |
+|  [\_walletApi](./cardano-wallet-tx.cardanowallet._walletapi.md) |  | WalletApi \| undefined |  |
+|  [lib](./cardano-wallet-tx.cardanowallet.lib.md) |  | any |  |
+|  [wallet](./cardano-wallet-tx.cardanowallet.wallet.md) |  | WalletApi \| undefined |  |
 
 ## Methods
 

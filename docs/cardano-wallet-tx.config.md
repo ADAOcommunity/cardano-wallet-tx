@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type Config = {
+declare type Config = {
     isMainnet: boolean;
     queryAPI: QueryAPI;
 };

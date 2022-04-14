@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface MintedAsset 
+export default interface MintedAsset 
 ```
 
 ## Properties

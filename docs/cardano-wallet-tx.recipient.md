@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface Recipient 
+export default interface Recipient 
 ```
 
 ## Properties
@@ -16,7 +16,7 @@ export declare interface Recipient
 |  --- | --- | --- |
 |  [address](./cardano-wallet-tx.recipient.address.md) | string |  |
 |  [amount](./cardano-wallet-tx.recipient.amount.md) | string |  |
-|  [assets?](./cardano-wallet-tx.recipient.assets.md) | [Asset](./cardano-wallet-tx.asset.md)<!-- -->\[\] | <i>(Optional)</i> |
+|  [assets?](./cardano-wallet-tx.recipient.assets.md) | Asset\[\] | <i>(Optional)</i> |
 |  [datum?](./cardano-wallet-tx.recipient.datum.md) | PlutusData | <i>(Optional)</i> |
-|  [mintedAssets?](./cardano-wallet-tx.recipient.mintedassets.md) | [MintedAsset](./cardano-wallet-tx.mintedasset.md)<!-- -->\[\] | <i>(Optional)</i> |
+|  [mintedAssets?](./cardano-wallet-tx.recipient.mintedassets.md) | MintedAsset\[\] | <i>(Optional)</i> |
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Buffer } from 'buffer'
 import AssetFingerprint from '@emurgo/cip14-js'
 import {
@@ -24,15 +25,12 @@ import {
 import { walletConfig } from './walletConfig'
 import TransactionParams from './types/TransactionParams'
 
-export type CardanoWASM =
-  typeof import('@emurgo/cardano-serialization-lib-browser')
-
 export class CardanoWallet {
   _walletApi: WalletApi | undefined
-  private _wasm: CardanoWASM
+  private _wasm: any
   private _protocolParameter: ProtocolParameters | undefined
-
-  public constructor(wasm: CardanoWASM) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public constructor(wasm: any) {
     this._wasm = wasm
   }
 

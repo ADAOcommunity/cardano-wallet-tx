@@ -7,8 +7,6 @@
 /// <reference types="node" />
 
 import { BaseAddress } from '@emurgo/cardano-serialization-lib-browser';
-import { emurgoCardanoSerializationLibBrowser } from '@emurgo/cardano-serialization-lib-browser';
-import { MultiAsset } from '@emurgo/cardano-serialization-lib-browser';
 import { PlutusData } from '@emurgo/cardano-serialization-lib-browser';
 import { PlutusScript } from '@emurgo/cardano-serialization-lib-browser';
 import { Redeemer } from '@emurgo/cardano-serialization-lib-browser';
@@ -45,7 +43,7 @@ export interface AssetHolding {
     unit: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "Asset_2" needs to be exported by the entry point cardano-wallet-tx.d.ts
+// Warning: (ae-forgotten-export) The symbol "Asset" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 export const assetUTxOsQuery: (address: string, asset: Asset_2, config: Config) => Promise<{
@@ -67,8 +65,7 @@ export interface BurnAsset {
 
 // @public (undocumented)
 export class CardanoWallet {
-    // Warning: (ae-forgotten-export) The symbol "CardanoWASM" needs to be exported by the entry point cardano-wallet-tx.d.ts
-    constructor(wasm: CardanoWASM);
+    constructor(wasm: any);
     // (undocumented)
     assetsToValue(assets: {
         policyId: string;
@@ -86,7 +83,7 @@ export class CardanoWallet {
     enable(walletname: string): Promise<boolean>;
     // (undocumented)
     getAddress(): Promise<string>;
-    // Warning: (ae-forgotten-export) The symbol "Buffer_2" needs to be exported by the entry point cardano-wallet-tx.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Buffer" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     getAddressHex(): Promise<Buffer_2 | null>;
@@ -106,25 +103,29 @@ export class CardanoWallet {
     // (undocumented)
     getWalletUtxosHex(): Promise<TransactionUnspentOutput[]>;
     // (undocumented)
-    hashMetadata(metadata: object): string;
+    hashMetadata(metadata: {
+        [s: string]: unknown;
+    } | ArrayLike<unknown>): string;
     // (undocumented)
     isEnabled(): boolean;
     // (undocumented)
-    get lib(): emurgoCardanoSerializationLibBrowser;
+    get lib(): any;
     // (undocumented)
     _makeMintedAsset(mintedAssets: MintedAsset[]): Value_2;
     // (undocumented)
-    _makeMultiAsset(assets: Asset[]): MultiAsset;
+    _makeMultiAsset(assets: Asset[]): any;
     // (undocumented)
     registerPolicy(policy: Policy): Promise<void>;
     // (undocumented)
-    setWallet(walletApi: WalletApi): void;
+    setWallet(walletApi: WalletApi): WalletApi;
     // (undocumented)
     signData(data: string): Promise<any>;
     // (undocumented)
     signTx(transaction: string | Transaction, partialSign?: boolean): Promise<string | null>;
     // (undocumented)
-    submitTx(transactionRaw: string, witnesses: string[], metadata?: object): Promise<string | undefined>;
+    submitTx(transactionRaw: string, witnesses: string[], metadata?: {
+        [s: string]: unknown;
+    } | ArrayLike<unknown>): Promise<string | undefined>;
     // (undocumented)
     transaction({ ProtocolParameters, PaymentAddress, recipients, metadata, metadataHash, utxosRaw, ttl, multiSig, delegation, redeemers, plutusValidators, plutusPolicies, datums, burn, }: TransactionParams): Promise<Transaction | null>;
     // (undocumented)
@@ -163,11 +164,10 @@ export interface Delegation {
     stakeKeyHash: Uint8Array;
 }
 
-// @public (undocumented)
+// @public
 export class Factory {
-    // (undocumented)
     get instance(): CardanoWallet | undefined;
-    // (undocumented)
+    // @eventProperty
     load(): Promise<CardanoWallet | undefined>;
 }
 
@@ -309,7 +309,7 @@ export interface ValueHolding {
 
 // @public (undocumented)
 export interface WalletApi {
-    // Warning: (ae-forgotten-export) The symbol "Experimental" needs to be exported by the entry point cardano-wallet-tx.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Experimental" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     experimental: Experimental;
@@ -325,7 +325,7 @@ export interface WalletApi {
     getRewardAddresses: () => Promise<RewardAddress>;
     // (undocumented)
     getUnusedAddresses: () => Promise<Array<BaseAddress>>;
-    // Warning: (ae-forgotten-export) The symbol "Paginate" needs to be exported by the entry point cardano-wallet-tx.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Paginate" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     getUsedAddresses: (paginate?: Paginate) => Promise<Array<BaseAddress>>;
@@ -351,9 +351,7 @@ export const walletConfig: {
 
 // Warnings were encountered during analysis:
 //
-// dist/cardano-wallet-tx.d.ts:303:5 - (ae-forgotten-export) The symbol "QueryAPI" needs to be exported by the entry point cardano-wallet-tx.d.ts
-// dist/cardano-wallet-tx.d.ts:428:5 - (ae-forgotten-export) The symbol "Assets" needs to be exported by the entry point cardano-wallet-tx.d.ts
-
-// (No @packageDocumentation comment for this package)
+// dist/types/config.d.ts:11:5 - (ae-forgotten-export) The symbol "QueryAPI" needs to be exported by the entry point index.d.ts
+// dist/types/queryApi.d.ts:5:5 - (ae-forgotten-export) The symbol "Assets" needs to be exported by the entry point index.d.ts
 
 ```

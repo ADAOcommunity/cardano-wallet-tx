@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-_makeMintedAsset(mintedAssets: MintedAsset[]): Value_2;
+_makeMintedAsset(mintedAssets: MintedAsset[]): Value;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  mintedAssets | [MintedAsset](./cardano-wallet-tx.mintedasset.md)<!-- -->\[\] |  |
+|  mintedAssets | MintedAsset\[\] |  |
 
 <b>Returns:</b>
 
-Value\_2
+Value
 

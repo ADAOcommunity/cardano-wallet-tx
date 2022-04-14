@@ -7,16 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-_makeMultiAsset(assets: Asset[]): MultiAsset;
+_makeMultiAsset(assets: Asset[]): any;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  assets | [Asset](./cardano-wallet-tx.asset.md)<!-- -->\[\] |  |
+|  assets | Asset\[\] |  |
 
 <b>Returns:</b>
 
-MultiAsset
+any
 

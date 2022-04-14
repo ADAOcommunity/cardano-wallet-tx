@@ -14,7 +14,7 @@ utxoFromData(output: UTxO, address: string): Promise<TransactionUnspentOutput>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  output | [UTxO](./cardano-wallet-tx.utxo.md) |  |
+|  output | UTxO |  |
 |  address | string |  |
 
 <b>Returns:</b>

@@ -7,7 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-submitTx(transactionRaw: string, witnesses: string[], metadata?: object): Promise<string | undefined>;
+submitTx(transactionRaw: string, witnesses: string[], metadata?: {
+        [s: string]: unknown;
+    } | ArrayLike<unknown>): Promise<string | undefined>;
 ```
 
 ## Parameters
@@ -16,7 +18,7 @@ submitTx(transactionRaw: string, witnesses: string[], metadata?: object): Promis
 |  --- | --- | --- |
 |  transactionRaw | string |  |
 |  witnesses | string\[\] |  |
-|  metadata | object | <i>(Optional)</i> |
+|  metadata | { \[s: string\]: unknown; } \| ArrayLike&lt;unknown&gt; | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

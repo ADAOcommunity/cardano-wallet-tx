@@ -18,5 +18,5 @@ getUtxos(utxosHex: string[]): Promise<UTXO[]>;
 
 <b>Returns:</b>
 
-Promise&lt;[UTXO](./cardano-wallet-tx.utxo.md)<!-- -->\[\]&gt;
+Promise&lt;UTXO\[\]&gt;
 

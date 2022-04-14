@@ -21,7 +21,7 @@ createLockingPolicyScript(address: string, expirationTime: Date | null, protocol
 |  --- | --- | --- |
 |  address | string |  |
 |  expirationTime | Date \| null |  |
-|  protocolParameters | [ProtocolParameters](./cardano-wallet-tx.protocolparameters.md) |  |
+|  protocolParameters | ProtocolParameters |  |
 
 <b>Returns:</b>
 

@@ -7,14 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-hashMetadata(metadata: object): string;
+hashMetadata(metadata: {
+        [s: string]: unknown;
+    } | ArrayLike<unknown>): string;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  metadata | object |  |
+|  metadata | { \[s: string\]: unknown; } \| ArrayLike&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 

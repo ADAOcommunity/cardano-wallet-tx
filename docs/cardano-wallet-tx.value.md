@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type Value = {
+declare type Value = {
     lovelace: bigint;
     assets: Assets;
 };

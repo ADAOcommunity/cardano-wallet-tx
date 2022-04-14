@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-getBalance: () => Promise<Value_2>;
+getBalance: () => Promise<Value>;
 ```

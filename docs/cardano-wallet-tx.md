@@ -4,12 +4,22 @@
 
 ## cardano-wallet-tx package
 
+🚧 Allows creating transactions based on configuration, including minting and plutus scripts. For details, see [github](https://github.com/ADAOcommunity/cardano-wallet-tx)
+
+## Remarks
+
+Allows creating transactions based on configuration, including minting and plutus scripts
+
+It uses npm, TypeScript compiler, Jest, webpack, ESLint, Prettier, husky, pinst, commitlint. The production files include CommonJS, ES Modules, UMD version and TypeScript declaration files.
+
+For Cardano related operations it uses custom version of cardano serialization library and Cardano Koios or Graphql instance to for chain data.
+
 ## Classes
 
 |  Class | Description |
 |  --- | --- |
 |  [CardanoWallet](./cardano-wallet-tx.cardanowallet.md) |  |
-|  [Factory](./cardano-wallet-tx.factory.md) |  |
+|  [Factory](./cardano-wallet-tx.factory.md) | Factory for CardanoWallet Instance |
 
 ## Interfaces
 

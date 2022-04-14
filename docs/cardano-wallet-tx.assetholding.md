@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface AssetHolding 
+export default interface AssetHolding 
 ```
 
 ## Properties

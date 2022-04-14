@@ -14,9 +14,9 @@ getBalance(protocolParameters: ProtocolParameters): Promise<ValueHolding>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  protocolParameters | [ProtocolParameters](./cardano-wallet-tx.protocolparameters.md) |  |
+|  protocolParameters | ProtocolParameters |  |
 
 <b>Returns:</b>
 
-Promise&lt;[ValueHolding](./cardano-wallet-tx.valueholding.md)<!-- -->&gt;
+Promise&lt;ValueHolding&gt;
 

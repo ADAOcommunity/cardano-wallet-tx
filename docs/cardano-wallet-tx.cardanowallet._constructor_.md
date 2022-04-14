@@ -9,12 +9,12 @@ Constructs a new instance of the `CardanoWallet` class
 <b>Signature:</b>
 
 ```typescript
-constructor(wasm: CardanoWASM);
+constructor(wasm: any);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  wasm | CardanoWASM |  |
+|  wasm | any |  |
 

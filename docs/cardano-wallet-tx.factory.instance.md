@@ -4,8 +4,15 @@
 
 ## Factory.instance property
 
+Get Factory Instance.
+
 <b>Signature:</b>
 
 ```typescript
 get instance(): CardanoWallet | undefined;
 ```
+
+## Example
+
+\`\`\`<!-- -->ts \`\`\`
+

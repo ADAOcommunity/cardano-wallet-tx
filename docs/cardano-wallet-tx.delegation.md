@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare interface Delegation 
+export default interface Delegation 
 ```
 
 ## Properties

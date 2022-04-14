@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get lib(): emurgoCardanoSerializationLibBrowser;
+get lib(): any;
 ```

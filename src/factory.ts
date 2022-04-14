@@ -22,7 +22,7 @@ import { CardanoWallet } from './cardanoWallet'
 export class Factory {
   private _instance?: CardanoWallet
 
-    /**
+  /**
    * Get Factory Instance.
    *
    * @example
@@ -36,7 +36,7 @@ export class Factory {
     return this._instance
   }
 
-    /**
+  /**
    * Cardano Serialization Lib Factory Loader.
    *
    * @remarks

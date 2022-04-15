@@ -1,5 +1,8 @@
 #  🚧 cardano-wallet-tx package
 
+
+## Archived, in favor of <a href="https://github.com/Berry-Pool/lucid" title="Github">Lucid</a>
+
 Allows creating transactions based on configuration, including minting and plutus scripts
 
 

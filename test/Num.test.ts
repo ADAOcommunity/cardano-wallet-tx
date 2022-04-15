@@ -11,3 +11,4 @@
 // test('addAll', () => {
 //   expect(Num.addAll([new Num(5), new Num(2), new Num(13)]).val()).toBe(20)
 // })
+export {}
